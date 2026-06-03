@@ -1,7 +1,7 @@
 # Contributing to claude-agents
 
-Thanks for your interest in contributing. This marketplace ships to five agentic
-harnesses (Claude Code, OpenAI Codex CLI, Cursor, OpenCode, Gemini CLI) from a single
+Thanks for your interest in contributing. This marketplace ships to six agentic
+harnesses (Claude Code, OpenAI Codex CLI, Cursor, OpenCode, Gemini CLI, GitHub Copilot) from a single
 Markdown source.
 
 ## Start here
@@ -19,7 +19,8 @@ Markdown source.
 2. Add agents in `agents/`, commands in `commands/`, skills in `skills/`.
 3. Update `.claude-plugin/marketplace.json` with your entry.
 4. Naming: lowercase, hyphen-separated. Never use `__` (the adapter namespace separator).
-5. Run `make validate` and `make garden` to surface any issues before submitting.
+5. Run `make generate-all` to refresh the committed native-install registries (CI gates registry drift).
+6. Run `make validate` and `make garden` to surface any issues before submitting.
 
 Full frontmatter conventions in [`docs/authoring.md`](docs/authoring.md).
 
@@ -52,6 +53,8 @@ Your content ships to five harnesses — some have stricter conventions than Cla
 - **OpenCode** requires lowercase tool names. Don't write `` `Read` `` inline — write
   *"open the file"* or use the lowercase form.
 - **Cursor** doesn't honor per-agent `tools:` allowlists — use it as a hint only.
+- **Copilot** maps Claude model aliases (`opus`/`sonnet`/`haiku`) to the GPT-5 family;
+  agent `description` must be a plain string.
 - All harnesses use ≤150-line context files. Don't bloat `AGENTS.md` / `CLAUDE.md`.
 
 `plugin-eval`'s `harness_portability` dimension catches most of these mechanically;
