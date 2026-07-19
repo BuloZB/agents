@@ -244,39 +244,52 @@ TOOL_NAME_MAPS: dict[str, dict[str, str]] = {
 }
 
 
-# Model alias map: bare Claude alias -> full provider-prefixed ID per harness
+# Model alias map: bare Claude alias -> full provider-prefixed ID per harness.
+# Targets verified against each harness's published model catalog 2026-07:
+# Codex recommends gpt-5.5 (top) / gpt-5.4-mini (light tasks, subagents);
+# Copilot CLI serves Claude models natively, so aliases map Claude -> Claude
+# (Fable 5 and Sonnet 5 GA in Copilot since 2026-06-30; dotted-ID format for
+# minor-versioned models);
+# Gemini CLI's GA models remain gemini-2.5-* (3.x is preview-gated and its
+# IDs churn), so the gemini column intentionally stays on the 2.5 family.
 MODEL_ALIASES: dict[str, dict[str, str]] = {
     "claude-code": {
+        "fable": "fable",
         "opus": "opus",
         "sonnet": "sonnet",
         "haiku": "haiku",
         "inherit": "inherit",
     },
     "codex": {
-        "opus": "gpt-5",
-        "sonnet": "gpt-5-mini",
-        "haiku": "gpt-5-nano",
-        "inherit": "gpt-5",
+        "fable": "gpt-5.5",
+        "opus": "gpt-5.5",
+        "sonnet": "gpt-5.4-mini",
+        "haiku": "gpt-5.4-mini",
+        "inherit": "gpt-5.5",
     },
     "copilot": {
-        "opus": "gpt-5",
-        "sonnet": "gpt-5-mini",
-        "haiku": "gpt-5-nano",
-        "inherit": "gpt-5",
+        "fable": "claude-fable-5",
+        "opus": "claude-opus-4.8",
+        "sonnet": "claude-sonnet-5",
+        "haiku": "claude-haiku-4.5",
+        "inherit": "claude-sonnet-5",
     },
     "cursor": {
+        "fable": "inherit",
         "opus": "inherit",
         "sonnet": "inherit",
         "haiku": "inherit",
         "inherit": "inherit",
     },
     "opencode": {
-        "opus": "anthropic/claude-opus-4-7",
-        "sonnet": "anthropic/claude-sonnet-4-6",
-        "haiku": "anthropic/claude-haiku-4-5-20251001",
-        "inherit": "anthropic/claude-sonnet-4-6",
+        "fable": "anthropic/claude-fable-5",
+        "opus": "anthropic/claude-opus-4-8",
+        "sonnet": "anthropic/claude-sonnet-5",
+        "haiku": "anthropic/claude-haiku-4-5",
+        "inherit": "anthropic/claude-sonnet-5",
     },
     "gemini": {
+        "fable": "gemini-2.5-pro",
         "opus": "gemini-2.5-pro",
         "sonnet": "gemini-2.5-pro",
         "haiku": "gemini-2.5-flash",

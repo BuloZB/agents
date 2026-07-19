@@ -6,7 +6,7 @@
     "url": "https://github.com/wshobson"
   },
   "metadata": {
-    "description": "Production-ready workflow orchestration with 84 marketplace plugins, 192 local specialized agents, and 156 local skills - optimized for granular installation and minimal token usage",
+    "description": "Production-ready workflow orchestration with 94 marketplace plugins, 203 local specialized agents, and 175 local skills - optimized for granular installation and minimal token usage",
     "version": "1.7.1"
   },
   "plugins": [
@@ -106,6 +106,17 @@
       "author": {
         "name": "Seth Hobson",
         "email": "seth@major7apps.com"
+      },
+      "license": "MIT"
+    },
+    {
+      "name": "before-you-build",
+      "source": "./plugins/before-you-build",
+      "version": "0.1.1",
+      "description": "Pre-build product risk review for founders, product teams, and AI-assisted builders before implementation starts.",
+      "author": {
+        "name": "bin1874",
+        "email": ""
       },
       "license": "MIT"
     },
@@ -385,6 +396,17 @@
       "license": "MIT"
     },
     {
+      "name": "dgx-spark-ops",
+      "source": "./plugins/dgx-spark-ops",
+      "version": "1.0.0",
+      "description": "NVIDIA DGX Spark (GB10 Grace Blackwell) environment operations: aarch64/CUDA-13 stack setup, training gotcha preflights, and unified-memory/thermal management for local ML workloads",
+      "author": {
+        "name": "Seth Hobson",
+        "email": "seth@major7apps.com"
+      },
+      "license": "MIT"
+    },
+    {
       "name": "distributed-debugging",
       "source": "./plugins/distributed-debugging",
       "version": "1.2.1",
@@ -448,6 +470,18 @@
         "name": "Seth Hobson",
         "email": "seth@major7apps.com"
       },
+      "license": "MIT"
+    },
+    {
+      "name": "file-conversion",
+      "source": "./plugins/file-conversion",
+      "version": "1.0.0",
+      "description": "Convert files between 999 routes \u2014 PDF to Word, HEIC to JPG, MP4 to MP3, CSV to JSON, EPUB to MOBI \u2014 via the free ChangeThisFile API. MCP-aware with a zero-dependency script fallback; no API key required.",
+      "author": {
+        "name": "Aadil Razvi",
+        "email": ""
+      },
+      "homepage": "https://github.com/aadilr/changethisfile-mcp",
       "license": "MIT"
     },
     {
@@ -528,6 +562,19 @@
       "license": "MIT"
     },
     {
+      "name": "hermes-tweet",
+      "source": "./plugins/hermes-tweet",
+      "version": "0.1.6",
+      "description": "Hermes Agent plugin for X/Twitter research, timeline reading, tweet analysis, and approval-gated tweet actions through Hermes Tweet",
+      "author": {
+        "name": "Xquik",
+        "email": ""
+      },
+      "homepage": "https://github.com/Xquik-dev/hermes-tweet#readme",
+      "license": "MIT",
+      "category": "marketing"
+    },
+    {
       "name": "hr-legal-compliance",
       "source": "./plugins/hr-legal-compliance",
       "version": "1.2.3",
@@ -605,6 +652,17 @@
       "license": "MIT"
     },
     {
+      "name": "llm-finetuning",
+      "source": "./plugins/llm-finetuning",
+      "version": "1.0.0",
+      "description": "Eval-gated LLM fine-tuning lifecycle: LoRA/QLoRA SFT, preference optimization (DPO/ORPO/KTO), GRPO/RLVR, vision SFT, and quantized export \u2014 Unsloth-first with TRL fallback, no eval harness means no fine-tune",
+      "author": {
+        "name": "Seth Hobson",
+        "email": "seth@major7apps.com"
+      },
+      "license": "MIT"
+    },
+    {
       "name": "machine-learning-ops",
       "source": "./plugins/machine-learning-ops",
       "version": "1.2.2",
@@ -618,7 +676,7 @@
     {
       "name": "meigen-ai-design",
       "source": "./plugins/meigen-ai-design",
-      "version": "1.0.8",
+      "version": "1.0.9",
       "description": "AI image generation with creative workflow orchestration, parallel multi-direction output, prompt engineering, and a 1,300+ curated inspiration library. Requires MeiGen MCP server (supports MeiGen Cloud, local ComfyUI, and OpenAI-compatible APIs).",
       "author": {
         "name": "MeiGen",
@@ -649,6 +707,19 @@
       "license": "MIT"
     },
     {
+      "name": "operating-kit",
+      "source": "./plugins/operating-kit",
+      "version": "1.0.0",
+      "description": "Portable operating method: session lifecycle agents (session-start/end), pre-ship code review, deploy with live verification, and production log health check. All agents use {{placeholders}} that adapt to your project.",
+      "author": {
+        "name": "Sharrmavishal",
+        "email": ""
+      },
+      "homepage": "https://github.com/Sharrmavishal/operating-kit",
+      "license": "MIT",
+      "category": "Coding"
+    },
+    {
       "name": "payment-processing",
       "source": "./plugins/payment-processing",
       "version": "1.2.3",
@@ -673,7 +744,20 @@
     {
       "name": "plugin-eval",
       "source": "./plugins/plugin-eval",
-      "version": "0.1.1"
+      "version": "0.1.1",
+      "description": "Three-layer quality evaluation framework for Claude Code plugins with Elo ranking"
+    },
+    {
+      "name": "pptx-deck-creation",
+      "source": "./plugins/pptx-deck-creation",
+      "version": "1.0.0",
+      "description": "Create production-ready, editable PowerPoint decks through a spec-first, coordinate-explicit workflow with read-only reference analysis and quality gates.",
+      "author": {
+        "name": "kimtth",
+        "email": ""
+      },
+      "license": "MIT",
+      "category": "creative"
     },
     {
       "name": "protect-mcp",
@@ -729,6 +813,19 @@
         "email": "tommy@scopeblind.com"
       },
       "license": "MIT"
+    },
+    {
+      "name": "runapi-mcp",
+      "source": "./plugins/runapi-mcp",
+      "version": "0.1.3",
+      "description": "RunAPI MCP server for browsing models, checking pricing, and creating image, video, music, audio, and LLM tasks.",
+      "author": {
+        "name": "RunAPI",
+        "email": ""
+      },
+      "homepage": "https://github.com/runapi-ai/mcp",
+      "license": "Apache-2.0",
+      "category": "ai-ml"
     },
     {
       "name": "security-compliance",
@@ -815,6 +912,17 @@
       "author": {
         "name": "Tom Farley",
         "email": "tommy@scopeblind.com"
+      },
+      "license": "MIT"
+    },
+    {
+      "name": "skill-forge-essentials",
+      "source": "./plugins/skill-forge-essentials",
+      "version": "1.0.0",
+      "description": "Three behavioral skills addressing AI-specific failure patterns: hidden code debt from agent generation, context compaction amnesia, and imprecise Design Mode edits",
+      "author": {
+        "name": "Adit Jain",
+        "email": "aditjain2005@gmail.com"
       },
       "license": "MIT"
     },

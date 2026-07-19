@@ -76,8 +76,8 @@ class TestCodexAdapter:
 
         parsed = tomllib.loads(content)
         assert parsed["name"] == "demo__greeter"
-        # opus is mapped to gpt-5
-        assert parsed["model"] == "gpt-5"
+        # opus is mapped to gpt-5.5
+        assert parsed["model"] == "gpt-5.5"
         # tools: Read, Grep -> read-only-ish set -> sandbox_mode = read-only
         assert parsed["sandbox_mode"] == "read-only"
         # color: blue should NOT be present
@@ -168,6 +168,79 @@ class TestCodexAdapter:
         assert (empty_repo / "AGENTS.md") not in result.written
         # Must warn about missing AGENTS.md
         assert any("AGENTS.md is missing" in w for w in result.warnings)
+
+    def test_marketplace_entries_have_description(
+        self, synthetic_plugin: PluginSource, output_root: Path, tmp_path: Path
+    ):
+        """Each `.agents/plugins/marketplace.json` entry carries a top-level
+        `description` as forward-compatible metadata, falling back to the plugin
+        name when the plugin's own manifest omits it.
+
+        NOTE: `codex-marketplace`'s installer (npm `codex-marketplace@0.2.1`,
+        `marketplacePluginSchema` in `dist/schema.js`) does not currently declare
+        or require this field — unknown keys are silently stripped by zod's
+        default `.parse()`. The field the installer actually validates is the
+        per-plugin `.codex-plugin/plugin.json` `description` — see
+        `test_plugin_manifest_description_falls_back_to_name` below.
+
+        Uses an empty `repo_root` so the real committed AGENTS.md isn't picked up.
+        """
+        empty_repo = tmp_path / "empty_repo"
+        empty_repo.mkdir()
+        adapter = CodexAdapter(output_root=output_root, repo_root=empty_repo)
+        adapter.emit_plugin(synthetic_plugin)
+        no_desc_plugin = PluginSource(
+            name="no-desc",
+            dir=empty_repo / "no-desc",
+            plugin_json={"name": "no-desc", "version": "0.1.0"},
+        )
+        adapter.emit_global([synthetic_plugin, no_desc_plugin])
+
+        marketplace_path = output_root / ".agents" / "plugins" / "marketplace.json"
+        data = json.loads(marketplace_path.read_text(encoding="utf-8"))
+        assert len(data["plugins"]) == 2, "expected two marketplace plugin entries"
+        for entry in data["plugins"]:
+            assert "description" in entry, f"missing description key in entry: {entry}"
+            assert isinstance(entry["description"], str)
+            assert len(entry["description"]) > 0
+
+        no_desc_entry = next(p for p in data["plugins"] if p["name"] == "no-desc")
+        assert no_desc_entry["description"] == "no-desc", (
+            "expected description to fall back to plugin name"
+        )
+
+    def test_plugin_manifest_description_falls_back_to_name(
+        self, tmp_path: Path, output_root: Path
+    ):
+        """`codex-marketplace`'s installer parses each plugin's
+        `.codex-plugin/plugin.json` with `pluginManifestSchema`, which requires
+        `description: z.string().min(1)`. A plugin whose own manifest omits
+        `description` (e.g. `plugin-eval` upstream) must still get a non-empty
+        `description` in the generated Codex manifest, via the `plugin.name`
+        fallback — otherwise `npx codex-marketplace add <repo> --plugins` fails
+        with `String must contain at least 1 character(s)` at `path: ["description"]`
+        for that plugin (#617).
+        """
+        plugin_dir = tmp_path / "no-description-plugin"
+        plugin_dir.mkdir()
+        (plugin_dir / ".claude-plugin").mkdir()
+        (plugin_dir / ".claude-plugin" / "plugin.json").write_text(
+            '{"name": "no-description-plugin", "version": "0.1.0"}'
+        )
+        plugin = PluginSource(
+            name="no-description-plugin",
+            dir=plugin_dir,
+            plugin_json={"name": "no-description-plugin", "version": "0.1.0"},
+        )
+        assert plugin.description == ""  # sanity: this is the empty-description case
+
+        CodexAdapter(output_root=output_root).emit_plugin(plugin)
+
+        manifest_path = (
+            output_root / "plugins" / "no-description-plugin" / ".codex-plugin" / "plugin.json"
+        )
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        assert manifest["description"] == "no-description-plugin"
 
     def test_emit_global_validates_committed_agents_md(
         self, synthetic_plugin: PluginSource, output_root: Path, tmp_path: Path
@@ -561,7 +634,7 @@ class TestOpenCodeAdapter:
         assert fm["name"] == "demo__greeter"
         assert fm["mode"] == "subagent"
         # opus -> full provider/model-id
-        assert fm["model"] == "anthropic/claude-opus-4-7"
+        assert fm["model"] == "anthropic/claude-opus-4-8"
 
     def test_permission_block_denies_unlisted_tools(
         self, synthetic_plugin: PluginSource, output_root: Path
@@ -945,7 +1018,7 @@ class TestCopilotAdapter:
         fm, body = parse_frontmatter(agent_path.read_text())
         assert fm["name"] == "demo__greeter"
         assert fm["description"] == "Use when delegating greetings."
-        assert fm["model"] == "gpt-5"
+        assert fm["model"] == "claude-opus-4.8"
         assert fm["tools"] == ["read", "search"]
         assert "color" not in fm
 
@@ -1014,10 +1087,10 @@ class TestCopilotAdapter:
         CopilotAdapter(output_root=output_root).emit_plugin(plugin)
 
         expected = {
-            "sonnet-agent": "gpt-5-mini",
-            "haiku-agent": "gpt-5-nano",
-            "inherit-agent": "gpt-5",
-            "default-model": "gpt-5",
+            "sonnet-agent": "claude-sonnet-5",
+            "haiku-agent": "claude-haiku-4.5",
+            "inherit-agent": "claude-sonnet-5",
+            "default-model": "claude-sonnet-5",
         }
         for name, exp_model in expected.items():
             fm, _ = parse_frontmatter(
@@ -1099,7 +1172,7 @@ class TestCopilotAdapter:
         fm, body = parse_frontmatter(content)
         assert fm["name"] == "demo__advisory"
         assert fm["description"] == "Use when advising."
-        assert fm["model"] == "gpt-5-mini"
+        assert fm["model"] == "claude-sonnet-5"
         assert "tools:" in content
 
     def test_no_tools_field(self, tmp_path: Path, output_root: Path):
@@ -1124,7 +1197,7 @@ class TestCopilotAdapter:
         fm, body = parse_frontmatter(content)
         assert fm["name"] == "demo__unrestricted"
         assert fm["description"] == "Use when unrestricted."
-        assert fm["model"] == "gpt-5"
+        assert fm["model"] == "claude-opus-4.8"
         assert "tools" not in fm
 
 
@@ -1181,6 +1254,28 @@ class TestFrontmatterParser:
         fm, _ = parse_frontmatter("---\nname: x\ndescription: >\n  multi\n  line\n---\nbody")
         assert fm["description"] == "multi line"
 
+    def test_nested_mapping(self):
+        from tools.adapters.base import parse_frontmatter
+
+        fm, _ = parse_frontmatter(
+            '---\nmetadata:\n  version: "1.0.0"\n  source: https://example.com\n---\nbody'
+        )
+        assert fm["metadata"] == {
+            "version": "1.0.0",
+            "source": "https://example.com",
+        }
+
+    def test_nested_mapping_rejects_deeper_indentation(self):
+        from tools.adapters.base import parse_frontmatter
+
+        fm, _ = parse_frontmatter("---\nmetadata:\n    version: 1.0.0\n---\nbody")
+        assert fm["metadata"] == ""
+
+        fm, _ = parse_frontmatter(
+            "---\nmetadata:\n  version: 1.0.0\n    source: https://example.com\n---\nbody"
+        )
+        assert fm["metadata"] == {"version": "1.0.0"}
+
 
 class TestCapabilities:
     def test_every_adapter_id_has_capabilities_entry(self):
@@ -1200,5 +1295,5 @@ class TestCapabilities:
         from tools.adapters.capabilities import MODEL_ALIASES, supported_harnesses
 
         for harness in supported_harnesses():
-            for alias in ("opus", "sonnet", "haiku", "inherit"):
+            for alias in ("fable", "opus", "sonnet", "haiku", "inherit"):
                 assert alias in MODEL_ALIASES[harness], f"{harness} missing {alias}"

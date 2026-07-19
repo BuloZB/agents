@@ -6,7 +6,7 @@
     "url": "https://github.com/wshobson"
   },
   "metadata": {
-    "description": "Production-ready workflow orchestration with 84 marketplace plugins, 192 local specialized agents, and 156 local skills - optimized for granular installation and minimal token usage",
+    "description": "Production-ready workflow orchestration with 94 marketplace plugins, 203 local specialized agents, and 175 local skills - optimized for granular installation and minimal token usage",
     "version": "1.7.1"
   },
   "plugins": [
@@ -59,6 +59,19 @@
         "email": "seth@major7apps.com"
       },
       "homepage": "https://github.com/wshobson/agents",
+      "license": "MIT",
+      "category": "workflows"
+    },
+    {
+      "name": "operating-kit",
+      "source": "./plugins/operating-kit",
+      "description": "Portable operating method: session lifecycle agents, pre-ship code review, deploy with live verification and state doc update, and production log health check",
+      "version": "1.0.0",
+      "author": {
+        "name": "Sharrmavishal",
+        "url": "https://github.com/Sharrmavishal"
+      },
+      "homepage": "https://github.com/Sharrmavishal/operating-kit",
       "license": "MIT",
       "category": "workflows"
     },
@@ -188,6 +201,16 @@
         "email": "seth@major7apps.com"
       },
       "source": "./plugins/llm-application-dev",
+      "category": "ai-ml",
+      "homepage": "https://github.com/wshobson/agents",
+      "license": "MIT"
+    },
+    {
+      "name": "llm-finetuning",
+      "description": "Eval-gated LLM fine-tuning lifecycle (LoRA/QLoRA, DPO, GRPO/RLVR, vision SFT, quantized export). Use when fine-tuning an open-weights model end-to-end: building the eval harness first, selecting method and model, preparing data, training with Unsloth or TRL, gating checkpoints, and exporting GGUF/FP8.",
+      "version": "1.0.0",
+      "author": { "name": "Seth Hobson", "email": "seth@major7apps.com" },
+      "source": "./plugins/llm-finetuning",
       "category": "ai-ml",
       "homepage": "https://github.com/wshobson/agents",
       "license": "MIT"
@@ -661,6 +684,19 @@
       "license": "MIT"
     },
     {
+      "name": "before-you-build",
+      "source": "./plugins/before-you-build",
+      "description": "Pre-build product risk review for founders, product teams, and AI-assisted builders before implementation starts",
+      "version": "0.1.1",
+      "author": {
+        "name": "bin1874",
+        "url": "https://github.com/bin1874/before-you-build-skill"
+      },
+      "homepage": "https://github.com/bin1874/before-you-build-skill",
+      "license": "MIT",
+      "category": "business"
+    },
+    {
       "name": "hr-legal-compliance",
       "source": "./plugins/hr-legal-compliance",
       "description": "HR policy documentation, legal compliance templates (GDPR/SOC2/HIPAA), employment contracts, and regulatory documentation",
@@ -709,6 +745,19 @@
         "url": "https://github.com/ndesv21"
       },
       "homepage": "https://getsocialclaw.com",
+      "license": "MIT",
+      "category": "marketing"
+    },
+    {
+      "name": "hermes-tweet",
+      "source": "./plugins/hermes-tweet",
+      "version": "0.1.6",
+      "description": "Hermes Agent plugin for X/Twitter research, timeline reading, tweet analysis, and approval-gated tweet actions through Hermes Tweet",
+      "author": {
+        "name": "Xquik",
+        "email": ""
+      },
+      "homepage": "https://github.com/Xquik-dev/hermes-tweet#readme",
       "license": "MIT",
       "category": "marketing"
     },
@@ -908,6 +957,16 @@
       "category": "development"
     },
     {
+      "name": "dgx-spark-ops",
+      "description": "NVIDIA DGX Spark (GB10) environment operations. Use when setting up, preflighting, or debugging ML workloads on DGX Spark or aarch64 Blackwell hardware — CUDA-13 wheel/ABI checks, unified-memory OOM ladders, thermal monitoring.",
+      "version": "1.0.0",
+      "author": { "name": "Seth Hobson", "email": "seth@major7apps.com" },
+      "source": "./plugins/dgx-spark-ops",
+      "category": "ai-ml",
+      "homepage": "https://github.com/wshobson/agents",
+      "license": "MIT"
+    },
+    {
       "name": "reverse-engineering",
       "source": "./plugins/reverse-engineering",
       "description": "Binary reverse engineering, malware analysis, firmware security, and software protection research for authorized security research, CTF competitions, and defensive security",
@@ -976,7 +1035,7 @@
       "name": "meigen-ai-design",
       "source": "./plugins/meigen-ai-design",
       "description": "AI image generation with creative workflow orchestration, prompt engineering, and curated inspiration library via MCP server",
-      "version": "1.0.8",
+      "version": "1.0.9",
       "author": {
         "name": "MeiGen",
         "url": "https://github.com/jau123"
@@ -1053,6 +1112,23 @@
       },
       "homepage": "https://github.com/Anasss/qa-orchestra",
       "license": "MIT",
+      "category": "testing"
+    },
+    {
+      "name": "ciagent",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/suniel12/ciagent.git",
+        "path": "plugins/ciagent"
+      },
+      "description": "Pytest-native regression testing for the AI agent being built — the onboard skill records golden baselines and generates a test spec; the check skill runs trace-diff regression, multi-run stability with verdict-flip attribution, and LLM-judge audits after every agent change.",
+      "version": "0.10.0",
+      "author": {
+        "name": "Sunil Pandey",
+        "url": "https://github.com/suniel12"
+      },
+      "homepage": "https://github.com/suniel12/ciagent",
+      "license": "Apache-2.0",
       "category": "testing"
     },
     {
@@ -1146,6 +1222,96 @@
         "playwright",
         "multi-agent",
         "dev-workflow"
+      ]
+    },
+    {
+      "name": "storymap-skill",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/MartinForReal/storymap-skill.git",
+        "path": "."
+      },
+      "description": "User story mapping (Jeff Patton style). Turns a goal, brief, or messy backlog into a sliced, prioritized delivery plan with per-persona stories. Four invocation modes (from scratch / brief / backlog / refinement), three prioritization methods (WSJF, RICE, MoSCoW), three slicing strategies (Patton classic, SAFe PI, Now/Next/Later). OKR coverage, dependency cycle detection, persona conflict resolution, slice-1 acceptance criteria, E2E test contract. Auto-activates in the Plan stage of Superpowers / gstack / GSD.",
+      "version": "0.0.3",
+      "author": {
+        "name": "MartinForReal",
+        "url": "https://github.com/MartinForReal"
+      },
+      "homepage": "https://github.com/MartinForReal/storymap-skill",
+      "license": "MIT",
+      "category": "workflows",
+      "keywords": [
+        "user-story-mapping",
+        "story-mapping",
+        "agile",
+        "safe",
+        "wsjf",
+        "rice",
+        "moscow",
+        "mvp",
+        "pi-planning",
+        "product-discovery",
+        "jeff-patton",
+        "backlog-management",
+        "personas"
+      ]
+    },
+    {
+      "name": "runapi-mcp",
+      "source": "./plugins/runapi-mcp",
+      "description": "RunAPI MCP server for browsing models, checking pricing, and creating image, video, music, audio, and LLM tasks.",
+      "version": "0.1.3",
+      "author": {
+        "name": "RunAPI",
+        "url": "https://runapi.ai"
+      },
+      "homepage": "https://github.com/runapi-ai/mcp",
+      "license": "Apache-2.0",
+      "category": "ai-ml"
+    },
+    {
+      "name": "file-conversion",
+      "source": "./plugins/file-conversion",
+      "description": "Convert files between 999 routes \u2014 PDF to Word, HEIC to JPG, MP4 to MP3, CSV to JSON, EPUB to MOBI \u2014 via the free ChangeThisFile API. MCP-aware with a zero-dependency script fallback; no API key required.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Aadil Razvi",
+        "url": "https://changethisfile.com"
+      },
+      "homepage": "https://github.com/aadilr/changethisfile-mcp",
+      "license": "MIT",
+      "category": "utilities"
+    },
+    {
+      "name": "skill-forge-essentials",
+      "source": "./plugins/skill-forge-essentials",
+      "description": "Behavioral skills for AI-specific failure patterns: hidden code debt from agent generation and context compaction amnesia via behavioral self-enforcement",
+      "version": "1.0.0",
+      "author": {
+        "name": "Adit Jain",
+        "url": "https://github.com/Adit-Jain-srm"
+      },
+      "license": "MIT",
+      "category": "quality"
+    },
+    {
+      "name": "pptx-deck-creation",
+      "source": "./plugins/pptx-deck-creation",
+      "description": "Create production-ready, editable PowerPoint decks through a spec-first, coordinate-explicit workflow with read-only reference analysis and quality gates.",
+      "version": "1.0.0",
+      "author": {
+        "name": "kimtth"
+      },
+      "homepage": "https://github.com/kimtth/agent-pptify-kit",
+      "license": "MIT",
+      "category": "creative",
+      "keywords": [
+        "powerpoint",
+        "pptx",
+        "presentations",
+        "slide-decks",
+        "deck-generation",
+        "slide-design"
       ]
     }
   ]
